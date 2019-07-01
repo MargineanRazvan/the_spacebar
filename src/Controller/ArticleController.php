@@ -10,16 +10,18 @@ use Symfony\Component\HttpFoundation\Response;  // pt response
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/")
+     * @Route("/", name="app_homepage")
+     * 
+     * 'name' it uses for dynamic routes. In template you can put 'app_homepage' as href to show destination. E.g href=" {{ path('app_homepage') }} "
      */
     public function homepage() 
     {
-        return new Response("HELLO WORLD!");
+        return $this->render('article/homepage.html.twig');
     }
 
 
     /** 
-     * @Route("/news/{slug}")
+     * @Route("/news/{slug}", name="article_show")
      */
     public function show($slug)
     {   
