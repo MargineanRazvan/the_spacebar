@@ -3,9 +3,11 @@
 
 namespace App\Controller;
 
+use Psr\Log\LoggerInterface; // pt logger
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route; // pt rute
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController; // pt a putea folosi twig
 use Symfony\Component\HttpFoundation\Response;  // pt response
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ArticleController extends AbstractController
 {
@@ -34,7 +36,20 @@ class ArticleController extends AbstractController
 
         return $this->render("article/show.html.twig", [
             'title' => ucwords(str_replace("-", " ", $slug)),
+            'slug' => $slug,
             'comments' => $comments,
         ]);
     }
+
+
+    /**
+     * @Route("/news/{slug}/heart", name="article_toggle_heart", methods={"POST"})
+     */
+    public function toggleArticleHart($slug, LoggerInterface $logger)
+    {
+        $logger->info("Article is being harted");
+        
+        return new JsonResponse(['hearts' => rand(5, 100)]);
+    }
+
 }
